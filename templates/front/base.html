@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="{{ csrf_token() }}" name="csrf-token">
+    <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="{{ url_for('static',filename='front/js/zlajax.js') }} "></script>
+    <script src="{{ url_for('static',filename='front/js/zlparam.js') }} "></script>
+    <link href="{{ url_for('static',filename='front/css/front_base.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='front/css/index.css') }}" rel="stylesheet">
+    <style>
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .video-background video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            opacity: 1;
+        }
+        
+        body {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .main-container {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .navbar {
+            background: linear-gradient(90deg, #36d1c4 0%, #5b86e5 100%);
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 600;
+            font-size: 1.4em;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-default .navbar-nav > li > a {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 15px 20px;
+        }
+
+        .navbar-default .navbar-nav > li > a:hover {
+            color: white !important;
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .navbar-form {
+            margin: 8px 0;
+        }
+
+        .navbar-form .form-control {
+            border-radius: 4px;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 8px 15px;
+            height: 36px;
+        }
+
+        .navbar-form .btn {
+            border-radius: 4px;
+            background-color: white;
+            color: #2c3e50;
+            border: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 8px 15px;
+            margin-left: 10px;
+        }
+
+        .navbar-form .btn:hover {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .dropdown-menu {
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: none;
+            padding: 5px 0;
+        }
+
+        .dropdown-menu > li > a {
+            padding: 8px 20px;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu > li > a:hover {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-form {
+                margin: 10px 0;
+            }
+            .navbar-default .navbar-nav > li > a {
+                padding: 10px 15px;
+            }
+        }
+
+        .navbar-default .navbar-nav > .active > a,
+        .navbar-default .navbar-nav > .active > a:focus,
+        .navbar-default .navbar-nav > .active > a:hover {
+            background-color: rgba(255,255,255,0.18) !important;
+            color: #fff !important;
+            border-radius: 8px;
+            font-weight: 700;
+            text-shadow: 0 1px 4px rgba(91,134,229,0.18);
+            transition: background 0.3s, color 0.3s;
+        }
+    </style>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>{% block title %}{% endblock %}</title>
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+<div class="video-background">
+    <video autoplay loop muted playsinline>
+        <source src="{{ url_for('static', filename='front/images/background/1.mp4') }}" type="video/mp4">
+    </video>
+</div>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button aria-expanded="false" class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-1"
+                    data-toggle="collapse" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Python论坛</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">首页<span class="sr-only">(current)</span></a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if user %}
+                <li class="dropdown">
+                    <a aria-expanded="true" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" href="#"
+                       id="dropdownMenu1" type="button">
+                        {{ user.username }}
+                        <span class="caret"></span>
+                    </a>
+                    <ul aria-labelledby="dropdownMenu1" class="dropdown-menu">
+                        <li><a href="{{ url_for('front.cms') }}">后台管理</a></li>
+                        <li><a href="{{ url_for('front.setting') }}">设置</a></li>
+                        <li><a href="{{ url_for('front.logout') }}">注销</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li><a href="{{ url_for('front.login')}}">登录</a></li>
+                <li><a href="{{ url_for('front.register')}}">注册</a></li>
+                {% endif %}
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="main-container">
+    {% block body%}
+    {% endblock %}
+</div>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+body{
+    /* 移除背景色，使视频背景可见 */
+    background: transparent;
+}
+.outer-box{
+    width: 854px;
+    background: rgba(255, 255, 255, 0.6); /* 半透明背景 */
+    backdrop-filter: blur(10px); /* 模糊效果 */
+    -webkit-backdrop-filter: blur(10px); /* Safari 兼容 */
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 15px; /* 圆角 */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* 细微的边框 */
+}
+.logo-box{
+    text-align: center;
+    padding-top: 40px;
+}
+.logo-box img{
+    width: 60px;
+    height:60px;
+}
+.page-title{
+    text-align: center;
+    color: #333;
+    margin: 20px 0;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+.sign-box{
+    width: 300px;
+    margin: 0 auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.4); /* 半透明背景 */
+    border-radius: 10px; /* 圆角 */
+    backdrop-filter: blur(5px); /* 轻微模糊效果 */
+    -webkit-backdrop-filter: blur(5px); /* Safari 兼容 */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05); /* 轻微阴影 */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* 细微的边框 */
+    margin-bottom: 30px; /* 底部间距 */
+}
+.captcha-addon{
+    padding: 0;
+    overflow: hidden;
+    border-radius: 0 4px 4px 0;
+}
+.captcha-img{
+    width: 94px;
+    height: 32px;
+    cursor: pointer;
+}
+
+/* 美化表单元素 */
+.form-control {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 8px rgba(91, 134, 229, 0.4);
+    border-color: rgba(91, 134, 229, 0.6);
+}
+
+/* 美化按钮 */
+.btn-warning {
+    background: linear-gradient(90deg, #36d1c4 0%, #5b86e5 100%);
+    border: none;
+    box-shadow: 0 4px 12px rgba(91, 134, 229, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(91, 134, 229, 0.4);
+}
+
+/* 美化链接 */
+.signup-link, .resetpwd-link {
+    color: #5b86e5;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.signup-link:hover, .resetpwd-link:hover {
+    color: #36d1c4;
+    text-decoration: none;
+}

@@ -1,0 +1,201 @@
+{% extends "front/base.html" %}
+
+{% block title %}
+    {{ post.title }} -- 帖子页
+{% endblock %}
+
+{% block head %}
+    <link href="{{ url_for('static', filename='lib/highlight/styles/github-dark.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='front/css/post_detail.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static',filename='lib/highlight/highlight.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='front/js/post_detail.js') }}"></script>
+    <style>
+        .post-container {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .post-container h2 {
+            color: var(--text-color);
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .post-info-group {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-info-group .post-meta span {
+            margin-right: 20px;
+        }
+        
+
+
+        .post-content {
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: #444;
+        }
+
+        .comment-group {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .comment-group h3 {
+            color: var(--text-color);
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .comment-list-group li {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+        }
+
+        .avatar-group {
+            margin-right: 15px;
+        }
+
+        .avatar-group img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .author-info {
+            margin-bottom: 10px;
+        }
+
+        .author-info span {
+            margin-right: 15px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .comment-txt {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .add-comment-group {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .add-comment-group h3 {
+            color: var(--text-color);
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        #comment-textarea {
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 20px;
+            min-height: 100px;
+            font-size: 1em;
+            line-height: 1.6;
+            transition: border-color 0.3s ease;
+        }
+
+        #comment-textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        .comment-btn-group {
+            text-align: right;
+        }
+
+        .comment-btn-group .btn {
+            padding: 10px 25px;
+            font-weight: 500;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .comment-btn-group .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="post-container">
+        <h2>{{ post.title }}</h2>
+        <p class="post-info-group">
+            <div class="post-meta">
+                <span>发表时间：{{ post.create_time }}</span>
+                <span>作者：{{ post.author.username }}</span>
+                <span>所属板块：{{ post.board.name }}</span>
+                <span>评论数：{{ comment_count }}</span>
+            </div>
+        </p>
+        <div class="post-content">
+            {{ post.content|safe }}
+        </div>
+    </div>
+    <div class="comment-group">
+        <h3>评论列表</h3>
+        <ul class="comment-list-group">
+            {% for comment in post.comments %}
+                <li>
+                    <div class="avatar-group">
+                        {% if comment.author.avatar and comment.author.avatar.strip() %}
+                            <img alt="" src="{{ url_for('media.get_avatar',filename=comment.author.avatar) }}">
+                        {% else %}
+                            <img alt="" src="{{ url_for('static',filename='front/images/avatar.jpg') }}">
+                        {% endif %}
+                    </div>
+                    <div class="comment-content">
+                        <p class="author-info">
+                            <span>{{ comment.author.username }}</span>
+                            <span>{{ comment.create_time }}</span>
+                        </p>
+                        <p class="comment-txt">
+                            {{ comment.content }}
+                        </p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="add-comment-group">
+        <h3>发表评论</h3>
+        <textarea id="comment-textarea" name="comment" style="width: 100%; resize:vertical;"></textarea>
+        <div class="comment-btn-group">
+            <button class="btn btn-primary" id="comment-btn" data-post-id="{{ post.id }}"
+                    data-user-id="{{ user.id if user else '' }}">发表评论
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
